@@ -7,11 +7,11 @@ type ThemeContext = {
 const ThemeContext = createContext<ThemeContext | null>(null);
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("");
   const toggleTheme = () => {
     setTheme((prev) => {
-      const newTheme = prev === "" ? "dark" : "";
-      document.documentElement.classList = newTheme;
+      const newTheme = prev === "light" ? "dark" : "light";
+      document.documentElement.classList = newTheme === "dark" ? newTheme : "";
 
       return newTheme;
     });
