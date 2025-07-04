@@ -8,7 +8,7 @@ const userRouter = new Hono();
 userRouter.get("/", async (c) => {
   const users = await db.select().from(usersTable);
 
-  c.json({ users });
+  return c.json({ users });
 });
 
 userRouter.post("/", async (c) => {
@@ -16,7 +16,7 @@ userRouter.post("/", async (c) => {
 
   const user = await db.insert(usersTable).values(data).returning();
 
-  c.json({ user });
+  return c.json({ user });
 });
 
 /* Get a user with all own products */
@@ -29,7 +29,7 @@ userRouter.get("/:id", async (c) => {
     .leftJoin(productsTable, eq(usersTable.id, productsTable.userId));
 
   if (!user) c.notFound();
-  c.json({ user });
+  return c.json({ user });
 });
 
 userRouter.put("/:id", async (c) => {
@@ -38,7 +38,7 @@ userRouter.put("/:id", async (c) => {
 
   const user = await db.update(usersTable).set(data).returning();
 
-  c.json({ user });
+  return c.json({ user });
 });
 
 userRouter.delete("/:id", async (c) => {
@@ -46,7 +46,7 @@ userRouter.delete("/:id", async (c) => {
 
   const user = await db.delete(usersTable).where(eq(usersTable.id, id));
 
-  c.json({ user });
+  return c.json({ user });
 });
 
 export default userRouter;
